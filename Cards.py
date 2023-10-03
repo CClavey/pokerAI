@@ -14,24 +14,34 @@ import time
 ### Constants ###
 
 # Adaptive threshold levels
+# If you make it larger, it will require a higher difference in pixel intensity between the card and the background for the card to be properly separated from the background. This could be useful if the background is very bright or if there's a lot of variation in lighting.
+# If you make it smaller, it will require a smaller difference in pixel intensity between the card and the background. This might work better in cases where the background is relatively dark or uniform.
 BKG_THRESH = 30 #60
+# A larger value will require a higher pixel intensity difference for the card's rank and suit to be thresholded properly. This could help in cases where the rank and suit images on the card are very distinct and have high contrast with the background.
+# A smaller value will allow for a smaller pixel intensity difference for thresholding. This might be necessary when the rank and suit images have lower contrast with the card's background.
 CARD_THRESH = 30
 
 # Width and height of card corner, where rank and suit are
+# Changing these values affects the size of the cropped corner of the card where the rank and suit are detected. If you make them larger, you will capture a larger region of the card's corner for analysis. This could help if the rank and suit symbols are relatively large.
+# If you make them smaller, you will analyze a smaller region, which could be useful if the symbols are small or if you want to focus on a specific area of the corner.
 CORNER_WIDTH = 32
 CORNER_HEIGHT = 84
 
 # Dimensions of rank train images
+# These values define the dimensions of the reference rank and suit images used for comparison. Making them larger means that the comparison templates are larger and more flexible in matching different card designs.
+# Making them smaller makes the templates smaller and potentially more specific. However, if the templates become too small, it might be harder to match cards with larger rank and suit symbols.
 RANK_WIDTH = 70
 RANK_HEIGHT = 125
-
 # Dimensions of suit train images
 SUIT_WIDTH = 70
 SUIT_HEIGHT = 100
 
+# Increasing these values allows for larger differences between the detected rank/suit images and the reference templates. This could result in more cards being confidently identified but might also lead to false positives.
+# Decreasing these values makes the matching criteria stricter, requiring a closer match between the detected images and the templates. This can reduce false positives but may also result in some cards not being identified.
 RANK_DIFF_MAX = 2000
 SUIT_DIFF_MAX = 700
 
+# Adjusting these values changes the acceptable size range for card contours. A larger value for CARD_MAX_AREA will accept larger card contours, and a smaller value for CARD_MIN_AREA will accept smaller ones. These values should be set based on the expected size range of the cards in your application.
 CARD_MAX_AREA = 120000
 CARD_MIN_AREA = 25000
 
