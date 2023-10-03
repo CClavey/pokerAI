@@ -1,3 +1,8 @@
+#Must Install CV2 and Numpy
+This is a Python program that uses a card detection program modified for MacOS systems in order to identify cards in a game of poker and help the player make decisions. 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 # OpenCV-Playing-Card-Detector
 This is a Python program that uses OpenCV to detect and identify playing cards from a PiCamera video feed on a Raspberry Pi. Check out the YouTube video that describes what it does and how it works:
 
