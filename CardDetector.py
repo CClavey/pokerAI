@@ -21,7 +21,7 @@ import VideoStream
 ## Camera settings
 IM_WIDTH = 1280
 IM_HEIGHT = 720 
-FRAME_RATE = 300
+FRAME_RATE = 600 #300
 
 ## Initialize calculated frame rate because it's calculated AFTER the first time it's displayed
 frame_rate_calc = 1
@@ -103,9 +103,12 @@ while cam_quit == 0:
     # Draw framerate in the corner of the image. Framerate is calculated at the end of the main loop,
     # so the first time this runs, framerate will be shown as 0.
     cv2.putText(image,"FPS: "+str(int(frame_rate_calc)),(10,26),font,0.7,(255,0,255),2,cv2.LINE_AA)
+    cv2.putText(image, "Press 'q' to exit ", (10, 50), font, .7, (14,14,240  ), 2, cv2.LINE_AA)
+    #this is were we will put a function to give the suggestion
+    cv2.putText(image, "You should: ", (10, 100), font, 1, (227,209,50), 3, cv2.LINE_AA)
 
     # Finally, display the image with the identified cards!
-    cv2.imshow("Card Detector",image)
+    cv2.imshow("Poker Bot",image)
 
     # Calculate framerate
     t2 = cv2.getTickCount()
