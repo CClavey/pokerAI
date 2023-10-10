@@ -25,26 +25,14 @@ import Cards
 
 class VideoStream:
     """Camera object"""
-    def __init__(self, resolution=(640, 480), framerate=30, PiOrUSB=1, src=0):
+    def __init__(self, resolution=(1280, 720), framerate=60, PiOrUSB=1, src=0):
 
         # Create a variable to indicate the source type.
         # PiOrUSB = 1 will use PiCamera. PiOrUSB = 2 will use USB camera.
         self.source_type = PiOrUSB
-
-        if self.source_type == 1:  # PiCamera
-            # Import packages from picamera library
-            from picamera.array import PiRGBArray
-            from picamera import PiCamera
-
-            # Initialize the PiCamera and the camera image stream
-            self.camera = PiCamera()
-            self.camera.resolution = resolution
-            self.camera.framerate = framerate
-            self.rawCapture = PiRGBArray(self.camera, size=resolution)
-            self.stream = self.camera.capture_continuous(
-                self.rawCapture, format="bgr", use_video_port=True)
-
-        elif self.source_type == 2:  # USB camera
+        # Define the width of the information space (adjust as needed)
+        self.info_space_width = 350
+        if self.source_type == 2:  # USB camera
             # Initialize the USB camera and the camera image stream
             self.stream = cv2.VideoCapture(src)
             ret = self.stream.set(3, resolution[0])
@@ -55,6 +43,7 @@ class VideoStream:
 
         # Initialize the frame attribute
         self.frame = np.array([])
+
 
         # Create a variable to control when the camera is stopped
         self.stopped = False
@@ -81,6 +70,8 @@ class VideoStream:
     def read(self):
         # Return the most recent frame
         return self.frame
+
+
 
     def stop(self):
         # Indicate that the camera and thread should be stopped
