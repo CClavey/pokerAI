@@ -10,13 +10,14 @@
 import numpy as np
 import cv2
 import time
+import pokerMain
+
 
 ### Constants ###
-
 # Adaptive threshold levels
 # If you make it larger, it will require a higher difference in pixel intensity between the card and the background for the card to be properly separated from the background. This could be useful if the background is very bright or if there's a lot of variation in lighting.
 # If you make it smaller, it will require a smaller difference in pixel intensity between the card and the background. This might work better in cases where the background is relatively dark or uniform.
-BKG_THRESH =  60
+BKG_THRESH = 60
 # A larger value will require a higher pixel intensity difference for the card's rank and suit to be thresholded properly. This could help in cases where the rank and suit images on the card are very distinct and have high contrast with the background.
 # A smaller value will allow for a smaller pixel intensity difference for thresholding. This might be necessary when the rank and suit images have lower contrast with the card's background.
 CARD_THRESH = 30
@@ -30,10 +31,10 @@ CORNER_HEIGHT = 82 #84
 # Dimensions of rank train images
 # These values define the dimensions of the reference rank and suit images used for comparison. Making them larger means that the comparison templates are larger and more flexible in matching different card designs.
 # Making them smaller makes the templates smaller and potentially more specific. However, if the templates become too small, it might be harder to match cards with larger rank and suit symbols.
-RANK_WIDTH =  70
-RANK_HEIGHT =  125
+RANK_WIDTH = 70
+RANK_HEIGHT = 125
 # Dimensions of suit train images
-SUIT_WIDTH =  70
+SUIT_WIDTH = 70
 SUIT_HEIGHT = 100
 
 # Increasing these values allows for larger differences between the detected rank/suit images and the reference templates. This could result in more cards being confidently identified but might also lead to false positives.
@@ -116,8 +117,8 @@ def load_suits(filepath):
 def preprocess_image(image):
     """Returns a grayed, blurred, and adaptively thresholded camera image."""
 
-    print("Image dimensions before conversion:", image.shape)
-    print("Image data type before conversion:", image.dtype)
+    #print("Image dimensions before conversion:", image.shape)
+    #print("Image data type before conversion:", image.dtype)
     gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
     blur = cv2.GaussianBlur(gray,(5,5),0)
 
@@ -300,6 +301,7 @@ def match_card(qCard, train_ranks, train_suits):
 
     if (best_suit_match_diff < SUIT_DIFF_MAX):
         best_suit_match_name = best_suit_name
+        print(f"Best Suit Match: {best_suit_match_name} (Difference: {best_suit_match_diff})")
 
     # Return the identiy of the card and the quality of the suit and rank match
     return best_rank_match_name, best_suit_match_name, best_rank_match_diff, best_suit_match_diff
@@ -314,6 +316,9 @@ def draw_results(image, qCard):
 
     rank_name = qCard.best_rank_match
     suit_name = qCard.best_suit_match
+
+    cardKey = (rank_name+ ' of ' + suit_name)
+    pokerMain.cardTest(cardKey)
 
     # Draw card name twice, so letters have black outline
     cv2.putText(image,(rank_name+' of'),(x-60,y-10),font,1,(0,0,0),3,cv2.LINE_AA)
