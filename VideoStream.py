@@ -22,6 +22,7 @@ import cv2
 from threading import Thread
 import numpy as np
 import Cards
+from time import sleep
 
 class VideoStream:
     """Camera object"""
